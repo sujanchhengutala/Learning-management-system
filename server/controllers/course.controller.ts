@@ -8,6 +8,7 @@ import ejs from "ejs"
 import mongoose from "mongoose";
 import path from "path";
 import sendMail from "../utils/sendMail";
+import { ResolveFnOutput } from "module";
 
 
 export const uploadCourse = async (req: Request, res: Response, next: NextFunction) => {
@@ -186,7 +187,7 @@ interface IAddAnswerData {
 
 export const addAnswer = async (req: Request | any, res: Response, next: NextFunction) => {
     try {
-        const user = req.user.select()
+        const user = req.user
         const { answer, contentId, courseId, questionId } = req.body
         const course = await courseModel.findById(courseId)
         if (!mongoose.Types.ObjectId.isValid(contentId)) {
@@ -246,5 +247,96 @@ export const addAnswer = async (req: Request | any, res: Response, next: NextFun
     } catch (error: any) {
         return next(new ErrorHandler(error.message, 400))
 
+    }
+}
+
+//add review in course
+interface IAddReviewData{
+    review:string;
+    userId:string;
+    rating:string;
+    courseId:string;
+}
+
+export const addReview = async(req:Request|any, res:Response, next:NextFunction)=>{
+    try {
+        const courseId=req.params.id
+        const user = req.user
+        const userCourseList = user.cources
+        const isCourseExist = userCourseList.some((course:any)=>course._id.toString() === courseId.toString())
+        //.some(): This is an array method in JavaScript. It checks if at least one element in the array satisfies a provided condition. It takes a callback function as an argument.
+
+        if(!isCourseExist){
+            return next(new ErrorHandler("You are not eligible to access this course", 500))
+        }
+
+        const course = await courseModel.findById(courseId)
+        const {review, rating}=req.body as IAddReviewData
+        const reviewData:any={
+            comment:review,
+            rating,
+            user
+        }
+        await course?.reviews.push(reviewData)
+
+        let avg = 0
+        course?.reviews.forEach((rev:any)=>{
+            avg = avg + rev.rating
+        })
+        if(course){
+            course.ratings = avg / course.reviews.length //9/2=4.5 //let take one example we have a 2 reviews one is 5 and other is 4 thats means avg=9 and since there is 2 reviews its length is 2 
+        }
+        await course?.save()
+
+        const notification ={
+            title:"New Reviews Recieve",
+            message:`${user.name} has given a reviews in ${course?.name}`
+        }
+        //create notification
+        res.status(200).json({success:true, course})
+
+    } catch (error:any) {
+        return next(new ErrorHandler(error.message, 400))
+    }
+}
+
+//add reply in review
+interface IAddReviewReplyData{
+    courseId:string;
+    comment:string;
+    reviewId:string;
+}
+
+export const addReplyToReview = async(req:Request|any, res:Response, next:NextFunction)=>{
+    try {
+
+
+        const {courseId, comment, reviewId} = req.body
+        const course = await courseModel.findById(courseId)
+        if(!course){
+            return next(new ErrorHandler("course not found", 404))
+        }
+        const review = course.reviews.find((rev:any)=>rev._id.toString() === reviewId)
+        if(!review){
+            return next(new ErrorHandler("Review not found", 404))
+        }
+        const user= req.user
+        const replyData:any = {
+            user, comment
+        }
+        if(!review.commentReplies){
+            return review.commentReplies=[]
+        }
+        review.commentReplies?.push(replyData)
+
+         await course.save()
+         res.status(200).json({
+            success:true,
+            course
+         })
+        
+    } catch (error:any) {
+        return next(new ErrorHandler(error.message, 500))
+        
     }
 }
