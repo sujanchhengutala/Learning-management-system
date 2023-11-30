@@ -5,7 +5,7 @@ import Jwt, { JwtPayload, Secret } from "jsonwebtoken";
 import path from "path";
 import ejs from "ejs"
 import sendMail from "../utils/sendMail";
-import { CatchAsyncError } from "../middleware/catchAsyncError";
+// import { CatchAsyncError } from "../middleware/catchAsyncError";
 import { SendToken, accessTokenOption, refreshTokenOption } from "../utils/jwt";
 import { redis } from "../utils/redis";
 import { getUserById } from "../services/user.service";

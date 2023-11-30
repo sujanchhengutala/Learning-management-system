@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>New Reply Notification</title>
+        <Meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content = "width=device-width, initial-scale=1.0" />
+    <style>
+        body{
+            margin: 0;
+            box-sizing: border-box;
+            padding: 0;
+        }
+        .container{
+            height: 73vh;
+            /* border: 1px solid black; */
+            background-color: rgb(94, 94, 193);
+            margin: auto;
+            width:40%;
+        }
+        .message-sm{
+            color: white;
+        }
+        h1{
+            font-size: 25px;
+            text-align: center;
+            padding-top: 3rem;
+
+        }
+        p{
+            text-align: center;
+            color: white;
+        }
+        .course-info{
+            background-color: white;
+            margin: auto;
+            width: 90%;
+            height: 30vh;
+            text-align: center;
+            border-radius: 10px;
+        }
+        table, tr, td{
+            margin: auto;
+            /* border: 1px solid black; */
+            /* width: 90%; */
+        }
+        .first-td{
+            text-align: center;
+        }
+    #g{
+    /* text-align: left; */
+    /* padding-left: 1px; */
+    }
+
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="message-sm">
+                <h1>Your Elearning order is confirmed</h1>
+                <p>And we're just excited as you are.</p>
+            </div>
+            <br>
+            <br>
+            <div class="course-info">
+                <h4 style="padding-top: 10px; padding-bottom: 2px; color: rgb(5, 125, 65);">Here's what you order:</h4>
+                <table style="border-bottom: 1px solid #0000002f; width: 90%;">
+                <tr>
+                    <td>
+                        order #:<%= order._id %>
+                    </td>
+                    <td>
+                        order Date:<%= order.date %>
+                    </td>
+                </tr>
+            </table>
+            <table style="width: 90%;">
+                <tr>
+                    <td class="first-td">Item</td>
+                    <td class="first-td">Qty</td>
+                    <td class="first-td">Cost</td>
+                </tr>
+            </table>
+            <table style="width: 90%;">
+                <tr>
+                    <td class="second-td" id="g"><%= order.name %></td>
+                    <td class="second-td" style="width: 33.33333333333333%;">1</td>
+                    <td class="second-td" id="m">$<%= order.price %></td>
+                </tr>
+            </table>
+            <table class="table-row" style="border-top: 1px solid #00000029; width: 70%; margin-top: 1rem; ">
+                <tr>
+                    <td class="col-2">subtotal:</td>
+                    <td class="col-2" style="width: 50%;">$<%= order.price %></td>
+                </tr>
+            </table>
+            
+            <table class="table-row" style="margin-top: 1px; width: 70%;">
+                <tr>
+                    <td class="col-2">Total:</td>
+                    <td class="col-2" style="width: 50%;">$<%= order.price %></td>
+                </tr>
+            </table>
+            </div>
+            <div class="footer">
+                <p style="padding: 1rem 1rem 0rem 1rem;">If you have any question, Please contact our support team at <a href="mailto:sujanchhengutala9@gmail.com" style="color: #224605;">sujanchhengutala.com</a></p>
+                <p style="padding-bottom: 1rem;">&copy:2023 Elearning. All rights reserved.</p>
+            </div>
+        </div>
+    </body>
+</html>

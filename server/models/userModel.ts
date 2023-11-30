@@ -16,6 +16,7 @@ role:string
 isVerified:boolean;
 comparePassword:(password:string)=>Promise<boolean>;
 cources:Array<{courseId:string}>;
+purchased:number;
 
 signAccessToken:()=>string
 signRefreshToken:()=>string
@@ -53,7 +54,11 @@ const userSchema:Schema<IUser> = new mongoose.Schema({
     },
     cources:[{
         courseId:String
-    }]
+    }],
+    purchased:{
+        type:Number,
+        default:0
+    }
 
 },
 {timestamps:true}

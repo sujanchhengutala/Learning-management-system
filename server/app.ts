@@ -21,8 +21,11 @@ app.use(cors({
 }))
 
 //routes
-app.use("/api/v1",router)
-app.use("/api/v1",courseRouter)
+import ejs from "ejs"
+import oredrRouter from "./routes/order.routes"
+app.use("/api/v1",router, courseRouter, oredrRouter)
+
+
 
 
 

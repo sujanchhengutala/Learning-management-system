@@ -8,7 +8,6 @@ import ejs from "ejs"
 import mongoose from "mongoose";
 import path from "path";
 import sendMail from "../utils/sendMail";
-import { ResolveFnOutput } from "module";
 
 
 export const uploadCourse = async (req: Request, res: Response, next: NextFunction) => {
