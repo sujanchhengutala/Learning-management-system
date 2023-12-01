@@ -6,6 +6,9 @@ export const app = express()
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import { ErrorMiddleware } from "./middleware/error"
+import ejs from "ejs"
+import oredrRouter from "./routes/order.routes"
+import notificationRoute from "./routes/notification.routes"
 
 dotenv.config()
 
@@ -21,9 +24,8 @@ app.use(cors({
 }))
 
 //routes
-import ejs from "ejs"
-import oredrRouter from "./routes/order.routes"
-app.use("/api/v1",router, courseRouter, oredrRouter)
+
+app.use("/api/v1",router, courseRouter, oredrRouter, notificationRoute)
 
 
 
