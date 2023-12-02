@@ -11,6 +11,7 @@ import sendMail from "../utils/sendMail";
 import NotificationModel from "../models/notificationModel";
 
 
+
 export const uploadCourse = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
@@ -347,5 +348,14 @@ export const addReplyToReview = async(req:Request|any, res:Response, next:NextFu
     } catch (error:any) {
         return next(new ErrorHandler(error.message, 500))
         
+    }
+}
+//GET All cources- only for admin
+
+export const getAllCources = async(req:Request, res:Response, next:NextFunction)=>{
+    try {
+        getAllCourcesService(res)
+    } catch (error:any) {
+        return next(new ErrorHandler(error.message, 500))
     }
 }

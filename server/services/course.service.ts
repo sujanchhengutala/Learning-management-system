@@ -9,3 +9,10 @@ export const createCourse = async(data:any, res:Response, next:NextFunction)=>{
         course
     })
 }
+export const getAllCourcesService = async(res:Response)=>{
+    const cources = await courseModel.find().sort({createdAt:-1})
+    res.status(200).json({
+        success:true,
+        cources
+    })
+}
