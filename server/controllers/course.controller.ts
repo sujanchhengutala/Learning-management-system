@@ -8,6 +8,7 @@ import ejs from "ejs"
 import mongoose from "mongoose";
 import path from "path";
 import sendMail from "../utils/sendMail";
+import NotificationModel from "../models/notificationModel";
 
 
 export const uploadCourse = async (req: Request, res: Response, next: NextFunction) => {
@@ -164,6 +165,11 @@ export const addQestion = async (req: Request | any, res: Response, next: NextFu
             questionReplies: []
         }
         courseContent.question.push(newQuestion)
+        await NotificationModel.create({
+            user:user._id,
+            title:"New Qu8estion",
+            message:`you have new order from ${courseContent?.title}`
+        })
         await course?.save()
         res.status(200).json({
             success: true,
@@ -217,7 +223,11 @@ export const addAnswer = async (req: Request | any, res: Response, next: NextFun
         //the person who asked question can't replies their answer so we perform validation
         if (userId === question.user._id) {
             //send a notification
-            console.log("correct23")
+            await NotificationModel.create({
+                user:user._id,
+                title:"New Qu8estion reply added",
+                message:`you have new order from ${courseContent?.title}`
+            })
 
         }
 
