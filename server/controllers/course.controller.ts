@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import ErrorHandler from "../utils/errorHandler";
 import cloudinary from "cloudinary"
-import { createCourse } from "../services/course.service";
+import { createCourse, getAllCourcesService } from "../services/course.service";
 import courseModel from "../models/courseModel";
 import { redis } from "../utils/redis";
 import ejs from "ejs"

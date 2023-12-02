@@ -1,9 +1,11 @@
 import express  from "express"
-import { isAuthenticate } from "../middleware/auth"
-import { createOrder } from "../controllers/order.controller"
+import { authorizeRoles, isAuthenticate } from "../middleware/auth"
+import { createOrder, getAllOrders } from "../controllers/order.controller"
 
 const oredrRouter = express.Router()
 
 oredrRouter.post("/create-order", isAuthenticate, createOrder)
+oredrRouter.get("/get-orders", isAuthenticate, authorizeRoles("admin"),getAllOrders)
+
 
 export default oredrRouter
