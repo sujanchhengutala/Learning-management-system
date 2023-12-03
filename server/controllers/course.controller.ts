@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import ErrorHandler from "../utils/errorHandler";
 import cloudinary from "cloudinary"
-import { createCourse, getAllCourcesService } from "../services/course.service";
+import { createCourse, deleteCourseService, getAllCourcesService } from "../services/course.service";
 import courseModel from "../models/courseModel";
 import { redis } from "../utils/redis";
 import ejs from "ejs"
@@ -355,6 +355,18 @@ export const addReplyToReview = async(req:Request|any, res:Response, next:NextFu
 export const getAllCources = async(req:Request, res:Response, next:NextFunction)=>{
     try {
         getAllCourcesService(res)
+    } catch (error:any) {
+        return next(new ErrorHandler(error.message, 500))
+    }
+}
+
+//delete user
+
+export const deleteCourse = async(req:Request, res:Response, next:NextFunction)=>{
+    try {
+        
+        const {id} = req.params
+        deleteCourseService(res, id, next)
     } catch (error:any) {
         return next(new ErrorHandler(error.message, 500))
     }

@@ -8,7 +8,7 @@ import sendMail from "../utils/sendMail";
 // import { CatchAsyncError } from "../middleware/catchAsyncError";
 import { SendToken, accessTokenOption, refreshTokenOption } from "../utils/jwt";
 import { redis } from "../utils/redis";
-import { getAllUsersService, getUserById, updateUserRoleService } from "../services/user.service";
+import { deleteUserService, getAllUsersService, getUserById, updateUserRoleService } from "../services/user.service";
 import cloudinary from "cloudinary"
 require("dotenv").config()
 
@@ -364,3 +364,14 @@ export const updateUserRole = async(req:Request, res:Response, next:NextFunction
     }
 }
 
+//delete user
+
+export const deleteUser = async(req:Request, res:Response, next:NextFunction)=>{
+    try {
+        
+        const {id} = req.params
+        deleteUserService(res, id, next)
+    } catch (error:any) {
+        return next(new ErrorHandler(error.message, 500))
+    }
+}
