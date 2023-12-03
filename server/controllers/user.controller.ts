@@ -8,7 +8,7 @@ import sendMail from "../utils/sendMail";
 // import { CatchAsyncError } from "../middleware/catchAsyncError";
 import { SendToken, accessTokenOption, refreshTokenOption } from "../utils/jwt";
 import { redis } from "../utils/redis";
-import { getAllUsersService, getUserById } from "../services/user.service";
+import { getAllUsersService, getUserById, updateUserRoleService } from "../services/user.service";
 import cloudinary from "cloudinary"
 require("dotenv").config()
 
@@ -352,3 +352,15 @@ export const getAllUsers = async(req:Request, res:Response, next:NextFunction)=>
         return next(new ErrorHandler(error.message, 500))
     }
 }
+
+//update user role
+
+export const updateUserRole = async(req:Request, res:Response, next:NextFunction)=>{
+    try {
+        const {id, role} = req.body
+        updateUserRoleService(res, id, role)
+    } catch (error:any) {
+        return next(new ErrorHandler(error.message, 500))
+    }
+}
+
